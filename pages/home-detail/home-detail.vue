@@ -178,6 +178,7 @@
 						title: this.formData.is_author_like ? '关注成功' : '取消关注成功',
 						icon: 'none'
 					})
+					uni.$emit('update_author')
 				}).catch((err) => {
 					uni.hideLoading()
 				})

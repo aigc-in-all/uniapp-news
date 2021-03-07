@@ -13,6 +13,10 @@
 				default () {
 					return {}
 				}
+			},
+			types: {
+				type: String,
+				default: ''
 			}
 		},
 		data() {
@@ -44,6 +48,7 @@
 						icon: 'none'
 					})
 					console.log('收藏成功', res)
+					uni.$emit('update_article', this.types)
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showToast({

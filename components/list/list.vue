@@ -43,7 +43,13 @@
 			}
 		},
 		created() {
-
+			uni.$on('update_article', (e) => {
+				if (e === 'follow') {
+					this.listCacheData = {}
+					this.load = {}
+					this.get_list(this.activeIndex)
+				}
+			})
 		},
 		methods: {
 			loadmore() {
