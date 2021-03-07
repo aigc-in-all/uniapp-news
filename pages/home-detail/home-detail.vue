@@ -17,7 +17,9 @@
 					<text>{{formData.thumbs_up_count}} 赞</text>
 				</view>
 			</view>
-			
+			<button class="detail-header__button" type="default" @click="follow(formData.author.id)">
+				{{formData.is_author_like?'取消关注':'关注'}}
+			</button>
 		</view>
 		<view class="detail-content">
 			<view class="detail-html">
@@ -43,8 +45,9 @@
 				<view class="detail-bottom__icons-box">
 					<uni-icons type="heart" size="22" color="#f07373"></uni-icons>
 				</view>
-				<view class="detail-bottom__icons-box">
-					<uni-icons type="hand-thumbsup" size="22" color="#f07373"></uni-icons>
+				<view class="detail-bottom__icons-box" @click="thumbsup(formData._id)">
+					<uni-icons :type="formData.is_thumbs_up?'hand-thumbsup-filled':'hand-thumbsup'" size="22"
+						color="#f07373"></uni-icons>
 				</view>
 			</view>
 		</view>
@@ -90,6 +93,12 @@
 
 		},
 		methods: {
+			thumbsup(article_id) {
+				this.setUpdateThumbsup(article_id)
+			},
+			follow(author_id) {
+				this.setUpdateAuthor(author_id)
+			},
 			getDetail() {
 				this.$api.get_detail({
 					article_id: this.formData._id
@@ -98,6 +107,7 @@
 						data
 					} = res
 					this.formData = data
+					console.log(data)
 				})
 			},
 			getComments() {
@@ -151,6 +161,37 @@
 						title: '评论失败，请重试',
 						icon: 'none'
 					})
+				})
+			},
+			setUpdateAuthor(author_id) {
+				uni.showLoading()
+				this.$api.update_author({
+					author_id: author_id
+				}).then((res) => {
+					uni.hideLoading()
+					this.formData.is_author_like = !this.formData.is_author_like
+					uni.showToast({
+						title: this.formData.is_author_like ? '关注成功' : '取消关注成功',
+						icon: 'none'
+					})
+				}).catch((err) => {
+					uni.hideLoading()
+				})
+			},
+			setUpdateThumbsup(article_id) {
+				uni.showLoading()
+				this.$api.update_thumbsup({
+					article_id: article_id
+				}).then((res) => {
+					uni.hideLoading()
+					this.formData.is_thumbs_up = true
+					this.formData.thumbs_up_count++
+					uni.showToast({
+						title: res.msg,
+						icon: 'none'
+					})
+				}).catch((err) => {
+					uni.hideLoading()
 				})
 			},
 			reply(comment) {
@@ -218,6 +259,14 @@
 						margin-right: 10px;
 					}
 				}
+			}
+
+			.detail-header__button {
+				flex-shrink: 0;
+				height: 30px;
+				font-synthesis: 12px;
+				background-color: $mk-base-color;
+				color: #fff;
 			}
 		}
 
