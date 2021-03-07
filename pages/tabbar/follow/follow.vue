@@ -33,7 +33,7 @@
 	export default {
 		data() {
 			return {
-				activeIndex: 1,
+				activeIndex: 0,
 				list: [],
 				articleShow: false,
 				authorList: []

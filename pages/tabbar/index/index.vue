@@ -9,6 +9,7 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -16,6 +17,14 @@
 				tabList: [],
 				tabIndex: 0,
 				activeIndex: 0
+			}
+		},
+		computed: {
+			...mapState(['userinfo'])
+		},
+		watch:{
+			userinfo(newVal, oldVal) {
+				this.getLabel()
 			}
 		},
 		onLoad() {
@@ -26,7 +35,7 @@
 				this.activeIndex = 0
 				this.getLabel()
 			})
-			this.getLabel()
+			
 		},
 		methods: {
 			tab({
