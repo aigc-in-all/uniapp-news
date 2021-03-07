@@ -1,7 +1,7 @@
 <template>
 	<view class="listauthor">
 		<view class="listauthor-image">
-			<image src="{item.avatar" mode="aspectFill"></image>
+			<image :src="item.avatar" mode="aspectFill"></image>
 		</view>
 		<view class="listauthor-content">
 			<view class="listauthor-content__title">{{item.author_name}}</view>
