@@ -5,7 +5,9 @@ const db = uniCloud.database()
 exports.main = async (event, context) => {
 	const {
 		user_id,
-		article_id
+		article_id,
+		pageSize = 10,
+		page = 1
 	} = event
 
 	const list = await db.collection('article')
@@ -21,6 +23,8 @@ exports.main = async (event, context) => {
 		.replaceRoot({
 			newRoot: '$comments'
 		})
+		.skip(pageSize * (page - 1))
+		.limit(pageSize)
 		.end()
 
 	return {

@@ -23,8 +23,7 @@
 		</view>
 		<view class="detail-content">
 			<view class="detail-html">
-				<!-- <u-parse :content="formData.content" :noData="noData"></u-parse> -->
-				内容
+				<u-parse :content="formData.content" :noData="noData"></u-parse>
 			</view>
 			<view class="detail-comment">
 				<view class="comment-title">最新评论</view>
@@ -39,7 +38,7 @@
 				<uni-icons type="compose" size="16" color="#f07373"></uni-icons>
 			</view>
 			<view class="detail-bottom__icons">
-				<view class="detail-bottom__icons-box">
+				<view class="detail-bottom__icons-box" @click="open">
 					<uni-icons type="chat" size="22" color="#f07373"></uni-icons>
 				</view>
 				<view class="detail-bottom__icons-box">
@@ -69,6 +68,7 @@
 
 <script>
 	import uParse from '@/components/gaoyia-parse/parse.vue'
+
 	export default {
 		components: {
 			uParse
@@ -83,7 +83,6 @@
 			}
 		},
 		onLoad(query) {
-
 			// this.formData = JSON.parse(query.params)
 			this.formData = JSON.parse(query.params)
 			this.getDetail()
@@ -93,6 +92,11 @@
 
 		},
 		methods: {
+			open() {
+				uni.navigateTo({
+					url: "/pages/detail-comments/detail-comments?id=" + this.formData._id
+				})
+			},
 			thumbsup(article_id) {
 				this.setUpdateThumbsup(article_id)
 			},

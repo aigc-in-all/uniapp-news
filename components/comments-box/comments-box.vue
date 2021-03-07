@@ -8,7 +8,7 @@
 				<view v-if="!comment.is_reply" class="title">{{comment.author.author_name}}</view>
 				<view v-else class="title">{{comment.author.author_name}}<text
 						class="reply-text">回复</text>{{comment.to}}</view>
-				<view>{{comment.create_time}}</view>
+				<view>{{comment.create_time | formatTime}}</view>
 			</view>
 		</view>
 		<view class="comments-content">
@@ -25,6 +25,10 @@
 
 <script>
 	import commentsBox from '@/components/comments-box/comments-box.vue'
+	import {
+		parseTime
+	} from '@/utils/index.js'
+	
 	export default {
 		name: "comments-box",
 		comments: {
@@ -46,6 +50,11 @@
 			return {
 
 			};
+		},
+		filters: {
+			formatTime(time) {
+				return parseTime(time)
+			}
 		},
 		methods: {
 			commentsReply(comment) {
